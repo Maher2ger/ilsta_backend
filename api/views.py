@@ -4,12 +4,17 @@ from django.http import HttpResponse
 from django.views.generic import View
 
 
-def ChoicesListSerialize(qs):
+def ChoicesListSerialize(qs):    #qs : QuerySet
+    '''
+    Serializert eine QuerySet von Choice-Objects
+    :param qs: QuerySet von Choice-Objects
+    :return: Liste von serialized Choice-Objects
+    '''
     id = 0
     final_list = []
     for choice in qs:
-        serializedChoice = choice.serialize(1)
-        serializedChoice['id'] = id
+        serializedChoice = choice.serialize(1)   #serialize(1): return Dictionary,
+        serializedChoice['id'] = id              #serialize(2): return Json,
         id += 1
         final_list.append(serializedChoice)
 
@@ -17,6 +22,12 @@ def ChoicesListSerialize(qs):
 
 
 def QuestionChoiceDictSerialize(id):
+    '''
+    Diese Funktion serializiert ein Question-Objects und die
+    dazugehörigen Choices
+    :param id: Id von Question
+    :return: ein serialized-Dictiorary
+    '''
     question = Question.objects.get(id=id)
     data = {
         "question": question.text,
@@ -26,6 +37,12 @@ def QuestionChoiceDictSerialize(id):
     return data
 
 def CapitalQuestionJsonSerialize(request,id):
+    '''
+    Serializiert die zu einem Kapital gehörigen Questions und Choices
+    :param request: für Http request
+    :param id: von Kapital
+    :return: Json Datei : eine List von Questions mit deren Choices
+    '''
     questions = list(Question.objects.filter(capital=id))
     final_list = []
     for question in questions:
