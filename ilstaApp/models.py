@@ -2,13 +2,16 @@ import json
 from django.utils import timezone
 from django.conf import settings
 from django.db import models
+from .mixin import TimeStamped
+
+
 
 
 class Course(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,default="")
-    name = models.CharField(default="capital", max_length=264, unique=True)
+    name = models.CharField(default="chapter", max_length=264, unique=True)
     updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(default=timezone.now())
+    created = models.DateTimeField(default=timezone.now)
 
 
     def __str__(self):
@@ -25,12 +28,12 @@ class Course(models.Model):
         json_data = json.dumps(data)
         return json_data
 
-class Capital(models.Model):
+class Chapter(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,default="")
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
-    name = models.CharField(default="capital", max_length=264, unique=True)
+    name = models.CharField(default="chapter", max_length=264, unique=True)
     updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(default=timezone.now())
+    created = models.DateTimeField(default=timezone.now)
 
 
     def __str__(self):
@@ -49,18 +52,18 @@ class Capital(models.Model):
 
 class Question(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,default="")
-    capital = models.ForeignKey(Capital, on_delete=models.CASCADE, null=True)
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, null=True)
     text = models.CharField(default="", max_length=264)
     tipps = models.TextField(blank=True, default="No Tipps!!")
     updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(default=timezone.now())
+    created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.text
 
     def serialize(self):
         data = {
-            "capital": self.capital,
+            "chapter": self.chapter,
             "question": self.text,
             "create_date": self.created,
             "tipps":self.tipps,
@@ -77,7 +80,7 @@ class Choice(models.Model):
     is_true = models.BooleanField(default=False)
     response_text = models.TextField(blank=True, null=True)
     updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(default=timezone.now())
+    created = models.DateTimeField(default=timezone.now)
 
     readonly_fields = ['created','updated']
 
@@ -103,3 +106,61 @@ class Choice(models.Model):
             }
             json_data = json.dumps(data)
             return json_data
+
+
+class TaskSolving(models.Model):
+    text = models.TextField(blank=True, default="No text!!")
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return "Task_ID: " + self.id
+
+
+class Explainer(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
+    question = models.ForeignKey(Chapter, on_delete=models.CASCADE, null=True)
+    title = models.CharField(default="", max_length=264, blank=True, null=True)
+    html = models.TextField(blank=True, default="No text!!")
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return "Explainer_ID: " + self.id
+    
+    
+    
+class Steps(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
+    task = models.ForeignKey(TaskSolving, on_delete=models.CASCADE, null=True)
+    text = models.TextField(blank=True, default="No text!!")
+    solution = models.IntegerField(default=0)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return  self.text
+
+
+
+class Step(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
+    task = models.ForeignKey(TaskSolving, on_delete=models.CASCADE, null=True)
+    text = models.TextField(blank=True, default="No text!!")
+    solution = models.IntegerField(default=0)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return  self.text
+
+    
+    
+class Brick(models.Model,TimeStamped):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
+    step = models.ForeignKey(Steps, on_delete=models.CASCADE, null=True)
+    text = models.TextField(blank=True, default="No text!!")
+
+
+    def __str__(self):
+        return  self.text

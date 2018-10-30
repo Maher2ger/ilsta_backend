@@ -1,6 +1,6 @@
 import json
-from ilstaApp.models import Choice, Question, Course, Capital
-from django.http import HttpResponse
+from ilstaApp.models import Choice, Question, Course, Chapter
+from django.http import HttpResponse,JsonResponse
 from django.views.generic import View
 
 
@@ -14,7 +14,7 @@ def ChoicesListSerialize(qs):    #qs : QuerySet
     final_list = []
     for choice in qs:
         serializedChoice = choice.serialize(1)   #serialize(1): return Dictionary,
-        serializedChoice['id'] = id              #serialize(2): return Json,
+        serializedChoice['id'] = id              #serialize(2): return Json ,
         id += 1
         final_list.append(serializedChoice)
 
@@ -36,14 +36,14 @@ def QuestionChoiceDictSerialize(id):
     }
     return data
 
-def CapitalQuestionJsonSerialize(request,id):
+def ChapterQuestionJsonSerialize(request,id):
     '''
     Serializiert die zu einem Kapital gehörigen Questions und Choices
     :param request: für Http request
     :param id: von Kapital
     :return: Json Datei : eine List von Questions mit deren Choices
     '''
-    questions = list(Question.objects.filter(capital=id))
+    questions = list(Question.objects.filter(chapter=id))
     final_list = []
     for question in questions:
         serializedQuestion = QuestionChoiceDictSerialize(question.id)

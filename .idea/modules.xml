@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../ilsta/.idea/ilsta.iml" filepath="$PROJECT_DIR$/../ilsta/.idea/ilsta.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ilsta_backend.iml" filepath="$PROJECT_DIR$/.idea/ilsta_backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ilsta_frontend/.idea/ilsta_frontend.iml" filepath="$PROJECT_DIR$/../ilsta_frontend/.idea/ilsta_frontend.iml" />
     </modules>
   </component>
 </project>
