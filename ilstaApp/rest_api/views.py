@@ -27,7 +27,9 @@ from .serializer import (QuestionSerializer,
                      TaskSolvingSerializer,
                      StepSerializer,
                      BrickSerializer,
-                     ExplainerSerializer)
+                     ExplainerSerializer,
+                         TSSerializer,
+                         McqSerializer)
 
 def is_json(json_data):
     try:
@@ -39,14 +41,58 @@ def is_json(json_data):
     return is_valid
 
 
-
-
-
-class ChoiceAPIView(generics.ListAPIView):
-
-
+class ChoiceListAPIView(generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
 
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
+
+
+class QuetionListAPIView(generics.ListAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+
+class ChapterListAPIView(generics.ListAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer
+
+
+class TSListAPIView(generics.ListAPIView):
+    permission_classes = []
+    authentication_classes = []
+
+    queryset = TaskSolving.objects.all()
+    serializer_class = TSSerializer
+
+
+class McqDetailAPIView(generics.RetrieveAPIView):
+
+    permission_classes = []
+    authentication_classes = []
+    queryset = Chapter.objects.all()
+    serializer_class = McqSerializer
+
+
+    # def post(self,request, *args,**kwargs):
+    #     return self.create(request,*args,**kwargs)
+
+
+    # def get_object(self,*args,**kwargs):
+    #     kwargs= self.kwargs
+    #     kw_id = kwargs.get('id')
+    #     return Chapter.objects.get(id=kw_id)
+
+class TSDetailAPIView(generics.RetrieveAPIView):
+
+    permission_classes = []
+    authentication_classes = []
+    queryset = Chapter.objects.all()
+    serializer_class = TSSerializer

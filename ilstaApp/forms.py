@@ -51,6 +51,7 @@ class TaskSolvingForm(forms.ModelForm):
         fields= [
             'user',
             'text',
+            'chapter',
         ]
 
 class StepForm(forms.ModelForm):

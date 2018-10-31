@@ -1,8 +1,18 @@
 from django.conf.urls import url
-from .views import ChoiceAPIView
+from .views import (ChoiceListAPIView,
+                    QuetionListAPIView,
+                    ChapterListAPIView,
+                    TSListAPIView,
+                    McqDetailAPIView,
+                    TSDetailAPIView)
 
 
 
 urlpatterns = [
-    url(r'^$',ChoiceAPIView.as_view()),
+    #url(r'^$',ChoiceListAPIView.as_view()),
+    #url(r'^$',QuetionListAPIView.as_view()),
+    #url(r'^$',ChapterListAPIView.as_view()),
+    url(r'^$',TSListAPIView.as_view()),
+    url(r'^mcq/(?P<pk>.*)/$',McqDetailAPIView.as_view()),
+    url(r'^t/(?P<pk>.*)/$',TSDetailAPIView.as_view()),
 ]

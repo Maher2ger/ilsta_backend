@@ -1,3 +1,4 @@
+import json
 from rest_framework import serializers
 from ilstaApp.models import (Question,
                      Choice,
@@ -16,33 +17,28 @@ class CourseSerializer(serializers.ModelSerializer):
             'name',
         ]
 
-class ChapterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Chapter
-        fields= [
-            'user',
-            'name',
-            'course',
-        ]
 
-class QuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Question
-        fields= [
-            'user',
-            'text',
-            'chapter',
-                    ]
 
 class ChoiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Choice
         fields= [
-            'user',
+            'id',
             'content',
             'is_true',
-            'question'
+            'response_text'
         ]
+
+class QuestionSerializer(serializers.ModelSerializer):
+    answers = ChoiceSerializer(many=True, read_only=True)
+    question = serializers.ReadOnlyField(source='__str__')
+    class Meta:
+        model = Question
+        fields = [
+                'question',
+                'answers',
+            ]
+
 
     def validate(self, data):
             content =data.get("content", None)
@@ -53,22 +49,75 @@ class ChoiceSerializer(serializers.ModelSerializer):
                 raise forms.ValidationError('Content  is required.')
             return data
 
-class TaskSolvingSerializer(serializers.ModelSerializer):
+
+class BrickSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TaskSolving
+        model = Brick
         fields= [
-            'user',
+            'id',
             'text',
-        ]
+             ]
 
 class StepSerializer(serializers.ModelSerializer):
+    answerBricks =BrickSerializer(many=True, read_only=True)
+    stepText = serializers.ReadOnlyField(source='__str__')
     class Meta:
         model = Step
         fields= [
-            'user',
-            'task',
-            'text',
+            'id',
+            'stepText',
+            'answerBricks',
         ]
+
+
+
+class TaskSolvingSerializer(serializers.ModelSerializer):
+    questionText = serializers.ReadOnlyField(source='get_text')
+    steps = StepSerializer(many=True, read_only=True)
+    class Meta:
+        model = TaskSolving
+        fields= [
+            'id',
+            'questionText',
+            'steps'
+        ]
+
+
+
+
+class McqSerializer(serializers.ModelSerializer):
+    questions = QuestionSerializer(many=True, read_only=True)
+    class Meta:
+        model = Chapter
+        fields= [
+            'name',
+            'course',
+            'questions',
+        ]
+
+
+class TSSerializer(serializers.ModelSerializer):
+    tasks = TaskSolvingSerializer(many=True, read_only=True)
+    class Meta:
+        model = Chapter
+        fields= [
+            'name',
+            'course',
+            'tasks',
+        ]
+
+
+
+
+class ChapterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chapter
+        fields= [
+            'name',
+            'course',
+            'id'
+        ]
+
 
 class ExplainerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,11 +128,3 @@ class ExplainerSerializer(serializers.ModelSerializer):
             'title',
         ]
 
-class BrickSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Brick
-        fields= [
-            'user',
-            'text',
-            'step'
-        ]
