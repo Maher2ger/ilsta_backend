@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'ilstaApp',
     'corsheaders',
     #'ilstaApp.apps.IlstaappConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

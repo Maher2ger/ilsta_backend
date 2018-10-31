@@ -1,9 +1,8 @@
 from django.conf.urls import url
-
-)
+from .views import ChoiceAPIView
 
 
 
 urlpatterns = [
-    url(r'^$',StatusAPIView.as_view()),
+    url(r'^$',ChoiceAPIView.as_view()),
 ]
