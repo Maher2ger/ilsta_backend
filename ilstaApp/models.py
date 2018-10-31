@@ -2,7 +2,6 @@ import json
 from django.utils import timezone
 from django.conf import settings
 from django.db import models
-from .mixin import TimeStamped
 
 
 
@@ -109,6 +108,7 @@ class Choice(models.Model):
 
 
 class TaskSolving(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
     text = models.TextField(blank=True, default="No text!!")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(default=timezone.now)
@@ -128,19 +128,6 @@ class Explainer(models.Model):
     def __str__(self):
         return "Explainer_ID: " + self.id
     
-    
-    
-class Steps(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
-    task = models.ForeignKey(TaskSolving, on_delete=models.CASCADE, null=True)
-    text = models.TextField(blank=True, default="No text!!")
-    solution = models.IntegerField(default=0)
-    updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return  self.text
-
 
 
 class Step(models.Model):
@@ -156,11 +143,12 @@ class Step(models.Model):
 
     
     
-class Brick(models.Model,TimeStamped):
+class Brick(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
-    step = models.ForeignKey(Steps, on_delete=models.CASCADE, null=True)
+    step = models.ForeignKey(Step, on_delete=models.CASCADE, null=True)
     text = models.TextField(blank=True, default="No text!!")
-
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return  self.text
