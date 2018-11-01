@@ -19,6 +19,6 @@ from django.urls import path,include
 urlpatterns = [
     path('',include('ilstaApp.urls')),
     path('pure_api/',include('api.urls')),
-    path('rest_api/',include('ilstaApp.rest_api.urls')),
+    path('load/',include('ilstaApp.rest_api.urls')),
     path('admin/', admin.site.urls),
 ]
