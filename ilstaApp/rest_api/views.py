@@ -1,4 +1,5 @@
 import json
+import requests
 from rest_framework import generics, mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -28,8 +29,9 @@ from .serializer import (QuestionSerializer,
                      StepSerializer,
                      BrickSerializer,
                      ExplainerSerializer,
-                         TSSerializer,
-                         McqSerializer)
+                     TSSerializer,
+                     McqSerializer,
+                     ExSerializer)
 
 def is_json(json_data):
     try:
@@ -96,3 +98,19 @@ class TSDetailAPIView(generics.RetrieveAPIView):
     authentication_classes = []
     queryset = Chapter.objects.all()
     serializer_class = TSSerializer
+
+
+class ExplainerDetailAPIView(generics.RetrieveAPIView):
+
+    permission_classes = []
+    authentication_classes = []
+    queryset = Explainer.objects.all()
+    serializer_class = ExplainerSerializer
+
+
+class ExDetailAPIView(generics.RetrieveAPIView):
+
+    permission_classes = []
+    authentication_classes = []
+    queryset = Chapter.objects.all()
+    serializer_class = ExSerializer

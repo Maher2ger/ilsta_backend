@@ -124,8 +124,18 @@ class ExplainerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Explainer
         fields= [
-            'user',
-            'question',
+            'id',
             'title',
+            'html',
         ]
 
+
+class ExSerializer(serializers.ModelSerializer):
+    explainer = ExplainerSerializer(many=True, read_only=True)
+    class Meta:
+        model = Chapter
+        fields = [
+            'name',
+            'course',
+            'explainer'
+        ]

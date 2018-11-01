@@ -4,7 +4,9 @@ from .views import (ChoiceListAPIView,
                     ChapterListAPIView,
                     TSListAPIView,
                     McqDetailAPIView,
-                    TSDetailAPIView)
+                    TSDetailAPIView,
+                    ExplainerDetailAPIView,
+                    ExDetailAPIView)
 
 
 
@@ -15,4 +17,5 @@ urlpatterns = [
     url(r'^$',TSListAPIView.as_view()),
     url(r'^mcq/(?P<pk>.*)/$',McqDetailAPIView.as_view()),
     url(r'^t/(?P<pk>.*)/$',TSDetailAPIView.as_view()),
+    url(r'^ex/(?P<pk>.*)/$',ExDetailAPIView.as_view()),
 ]

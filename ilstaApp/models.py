@@ -138,15 +138,20 @@ class TaskSolving(models.Model):
 
 
 class Explainer(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default="")
-    question = models.ForeignKey(Chapter, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             default="")
+    question = models.ForeignKey(Chapter,
+                                on_delete=models.CASCADE,
+                                null=True,
+                                related_name='explainer')
     title = models.CharField(default="", max_length=264, blank=True, null=True)
     html = models.TextField(blank=True, default="No text!!")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return "Explainer_ID: " + self.id
+        return "Explainer_ID: " + str(self.id)
 
 
     

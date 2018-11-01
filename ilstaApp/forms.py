@@ -70,6 +70,7 @@ class ExplainerForm(forms.ModelForm):
             'user',
             'question',
             'title',
+            'html'
         ]
 
 class BrickForm(forms.ModelForm):
