@@ -167,7 +167,7 @@ class Step(models.Model):
                              null=True,
                              related_name='steps')
     text = models.TextField(blank=True, default="No text!!")
-    solution = models.IntegerField(default=0)
+    solution = models.CharField(default='',max_length=20,null=False)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(default=timezone.now)
 

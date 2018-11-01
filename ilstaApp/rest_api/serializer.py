@@ -67,6 +67,7 @@ class StepSerializer(serializers.ModelSerializer):
             'id',
             'stepText',
             'answerBricks',
+            'solution'
         ]
 
 
@@ -105,6 +106,7 @@ class TSSerializer(serializers.ModelSerializer):
             'chapter',
             'course',
             'tasks',
+
         ]
 
 

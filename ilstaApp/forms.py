@@ -61,6 +61,7 @@ class StepForm(forms.ModelForm):
             'user',
             'task',
             'text',
+            'solution'
         ]
 
 class ExplainerForm(forms.ModelForm):
