@@ -98,10 +98,11 @@ class McqSerializer(serializers.ModelSerializer):
 
 class TSSerializer(serializers.ModelSerializer):
     tasks = TaskSolvingSerializer(many=True, read_only=True)
+    chapter = serializers.ReadOnlyField(source='__str__')
     class Meta:
         model = Chapter
         fields= [
-            'name',
+            'chapter',
             'course',
             'tasks',
         ]
